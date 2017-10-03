@@ -18,7 +18,8 @@ export class DashComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.loadTodos();
+    this.todoService.all()
+      .then(todos => this.todos = [ ...todos ]);
   }
 
   addTodo(message: string) {
@@ -26,9 +27,13 @@ export class DashComponent implements OnInit {
     todo.message                       = message;
     this.todos                         = this.todos.filter(t => t.message !== message).concat(todo);
     this.todoInput.nativeElement.value = '';
+    this.todoService.save(todo)
+      .then(todos => this.todos = [ ...todos ]);
   }
 
   removeTodo(message: string) {
     this.todos = this.todos.filter(t => t.message !== message);
+    this.todoService.remove(message)
+      .then(() => {});
   }
 }

@@ -13,14 +13,14 @@ export class TodoService {
   constructor(private localStorage: AsyncLocalStorage) {
   }
 
-  async all(): Promise<Todo[]> {
+  all(): Q.Promise<Todo[]> {
     const defer = Q.defer<Todo[]>();
     this.localStorage.getItem(KEY_TODOS)
       .subscribe(defer.resolve, defer.reject);
     return defer.promise;
   }
 
-  get(message: string): Promise<Todo> {
+  get(message: string): Q.Promise<Todo> {
     return this.all()
       .then((todos: Todo[]) => {
         const payload = todos || [];
